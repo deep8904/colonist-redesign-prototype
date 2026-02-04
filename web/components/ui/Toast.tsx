@@ -88,8 +88,15 @@ interface ToastContainerProps {
     onClose: (id: string) => void;
 }
 
+
 export function ToastContainer({ toasts, onClose }: ToastContainerProps) {
-    if (typeof window === "undefined") return null;
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
 
     return createPortal(
         <div className="fixed top-4 right-4 z-[var(--z-toast)] flex flex-col gap-2">

@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import { X } from "lucide-react";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { createPortal } from "react-dom";
 
 export interface ModalProps {
@@ -107,8 +107,15 @@ export function Modal({
         </div>
     );
 
+
     // Only render portal on client
-    if (typeof window === "undefined") return null;
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) return null;
 
     return createPortal(modalContent, document.body);
 }
